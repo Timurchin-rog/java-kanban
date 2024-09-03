@@ -1,3 +1,9 @@
+package service;
+import model.Epic;
+import model.SubTask;
+import model.Task;
+import model.Status;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,8 +39,9 @@ public class TaskManager {
         tasks.clear();
     }
 
-    public void removeAllSubTasks() {
+    public void removeAllSubTasks(Epic epic) {
         subTasks.clear();
+        epic.removeAllSubTask();
     }
 
     public void removeAllEpics() {

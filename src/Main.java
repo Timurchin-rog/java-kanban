@@ -1,3 +1,9 @@
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
+import service.TaskManager;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -38,6 +44,11 @@ public class Main {
         System.out.println(taskManager.getSubTasksOfEpic(epic1));
         System.out.println(taskManager.getSubTasksOfEpic(epic2));
         System.out.println(taskManager.printAllSubTasks());
+        taskManager.removeAllSubTasks(epic2);
+        System.out.println();
+        System.out.println(taskManager.printAllSubTasks());
+        System.out.println();
+        System.out.println(taskManager.getSubTasksOfEpic(epic2));
     }
 
 }
