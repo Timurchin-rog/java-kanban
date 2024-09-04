@@ -13,6 +13,6 @@ public class SubTask extends Task {
     }
 
     public void removeSubTask(SubTask subTask) {
-        epic.subTasksOfEpic.remove(subTask);
+        epic.subTasks.remove(subTask);
     }
 }
