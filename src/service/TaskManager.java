@@ -59,6 +59,7 @@ public class TaskManager {
         epic.addSubTask(subTask);
         subTask.setId(generateID());
         allSubTasks.put(subTask.getId(), subTask);
+        calculateStatus(epic);
         return subTask;
     }
 

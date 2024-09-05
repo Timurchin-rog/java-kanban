@@ -14,7 +14,7 @@ public class Main {
         Epic epic2 = taskManager.createEpic(new Epic("Эпик 2", Status.NEW, "ДЗ"));
         SubTask subTask1 = taskManager.createSubTask(new SubTask("Подзадача 1", Status.DONE, "Мыть пол", epic1));
         SubTask subTask2 = taskManager.createSubTask(new SubTask("Подзадача 2", Status.IN_PROGRESS, "Протирать пыль", epic1));
-        SubTask subTask3 = taskManager.createSubTask(new SubTask("Подзадача 3", Status.NEW, "Программирование", epic2));
+        SubTask subTask3 = taskManager.createSubTask(new SubTask("Подзадача 3", Status.DONE, "Программирование", epic2));
         System.out.println(taskManager.printAllTasks());
         System.out.println(taskManager.printAllEpics());
         System.out.println(taskManager.printAllSubTasks());
