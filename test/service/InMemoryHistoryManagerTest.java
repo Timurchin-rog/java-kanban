@@ -4,6 +4,7 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +15,24 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("HistoryManager")
 class InMemoryHistoryManagerTest {
-    TaskManager taskManager = Managers.getDefault();
-    HistoryManager historyManager = Managers.getDefaultHistory();
+    HistoryManager historyManager;
+    TaskManager taskManager;
+    Task task;
+    Epic epic;
+    SubTask subTask;
+
+    @BeforeEach
+    void init() {
+        historyManager = new InMemoryHistoryManager();
+        taskManager = new InMemoryTaskManager(historyManager);
+        task = taskManager.createTask(new Task("Test Task", Status.NEW, "Test Task description"));
+        epic = taskManager.createEpic(new Epic("Test Epic", Status.NEW, "Test Epic description"));
+        subTask = taskManager.createSubTask(new SubTask("Test SubTask", Status.NEW, "Test SubTask description", epic));
+    }
+
     @Test
-    @DisplayName("должен заполнять историю просмотров и получать её")
-    void shouldFillBrowsingHistoryAndGetIt() {
-        Task task = taskManager.createTask(new Task("Test Task", Status.NEW, "Test Task description"));
-        Epic epic = taskManager.createEpic(new Epic("Test Epic", Status.NEW, "Test Epic description"));
-        SubTask subTask = taskManager.createSubTask(new SubTask("Test SubTask", Status.NEW, "Test SubTask description", epic));
+    @DisplayName("должен получать заполненную историю просмотров")
+    void shouldFillBrowsingHistory() {
         historyManager.add(task);
         historyManager.add(subTask);
         historyManager.add(epic);

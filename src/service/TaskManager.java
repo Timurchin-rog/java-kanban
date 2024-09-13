@@ -47,5 +47,5 @@ public interface TaskManager {
 
     void removeEpic(int id);
 
-    public ArrayList<Task> getHistory();
+    ArrayList<Task> getHistory();
 }

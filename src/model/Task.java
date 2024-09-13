@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Task {
     private int id;
     private String name;
@@ -49,7 +51,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id;
+        return id == task.id && Objects.equals(name, task.name) && status == task.status && Objects.equals(description, task.description);
     }
 
     @Override
