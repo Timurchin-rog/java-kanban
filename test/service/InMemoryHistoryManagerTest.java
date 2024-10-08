@@ -38,9 +38,9 @@ class InMemoryHistoryManagerTest {
         taskManager.getEpic(epic.getId());
         assertNotNull(historyManager.getHistory(), "История просмотров не заполнена");
         ArrayList<Task> browsingHistory = new ArrayList<>();
-        browsingHistory.add(epic);
-        browsingHistory.add(subTask);
         browsingHistory.add(task);
+        browsingHistory.add(subTask);
+        browsingHistory.add(epic);
         assertEquals(historyManager.getHistory(), browsingHistory, "История просмотров неверна");
     }
 }
