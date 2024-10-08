@@ -19,6 +19,7 @@ public class Main {
         taskManager.getEpic(3);
         System.out.println(taskManager.getHistory());
         taskManager.getSubTask(5);
+        taskManager.getSubTask(6);
         System.out.println(taskManager.getHistory());
         taskManager.getSubTask(5);
         taskManager.getSubTask(6);
