@@ -17,7 +17,6 @@ public class Main {
         SubTask subTask2 = taskManager.createSubTask(new SubTask("Подзадача 2", Status.IN_PROGRESS, "Протирать пыль", epic1));
         SubTask subTask3 = taskManager.createSubTask(new SubTask("Подзадача 3", Status.DONE, "Программирование", epic2));
         taskManager.getEpic(3);
-        taskManager.getSubTask(6);
         System.out.println(taskManager.getHistory());
         taskManager.getSubTask(5);
         taskManager.getSubTask(6);
