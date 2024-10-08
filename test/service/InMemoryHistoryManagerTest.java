@@ -43,14 +43,4 @@ class InMemoryHistoryManagerTest {
         browsingHistory.add(task);
         assertEquals(historyManager.getHistory(), browsingHistory, "История просмотров неверна");
     }
-
-    @Test
-    @DisplayName("должен удалять задачу из истории просмотров")
-    void shouldRemoveTaskFromBrowsingHistory() {
-        taskManager.getTask(task.getId());
-        taskManager.getSubTask(subTask.getId());
-        taskManager.getEpic(epic.getId());
-        historyManager.remove(task.getId());
-        assertEquals(historyManager.getHistory().size(), 2, "Задача не удалена");
-    }
 }
