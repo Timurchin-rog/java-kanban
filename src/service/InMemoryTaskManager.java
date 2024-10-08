@@ -7,6 +7,7 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     HashMap<Integer, SubTask> allSubTasks;
@@ -88,19 +89,25 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(int id) {
-        historyManager.add(tasks.get(id));
+        if (tasks.get(id) != null) {
+            historyManager.add(tasks.get(id));
+        }
         return tasks.get(id);
     }
 
     @Override
     public SubTask getSubTask(int id) {
-        historyManager.add(allSubTasks.get(id));
+        if (allSubTasks.get(id) != null) {
+            historyManager.add(allSubTasks.get(id));
+        }
         return allSubTasks.get(id);
     }
 
     @Override
     public Epic getEpic(int id) {
-        historyManager.add(epics.get(id));
+        if (epics.get(id) != null) {
+            historyManager.add(epics.get(id));
+        }
         return epics.get(id);
     }
 
@@ -151,11 +158,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeTask(int id) {
+        historyManager.remove(id);
         tasks.remove(id);
     }
 
     @Override
     public void removeSubTask(int id) {
+        historyManager.remove(id);
         SubTask subTask = allSubTasks.get(id);
         allSubTasks.remove(id);
         subTask.removeSubTask(subTask);
@@ -163,13 +172,23 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeEpic(int id) {
+        historyManager.remove(id);
         Epic removedEpic = epics.get(id);
         epics.remove(id);
+        removeSubTaskOfEpic(removedEpic);
         removedEpic.removeAllSubTask();
     }
 
+    private void removeSubTaskOfEpic(Epic removedEpic) {
+        for (int i = 0; i < removedEpic.subTasks.size(); i++) {
+            if (allSubTasks.get(removedEpic.subTasks.get(i).getId()) != null) {
+                allSubTasks.remove(removedEpic.subTasks.get(i).getId());
+            }
+        }
+    }
+
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 }

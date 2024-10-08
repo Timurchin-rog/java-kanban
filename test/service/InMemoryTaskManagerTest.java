@@ -118,8 +118,6 @@ class InMemoryTaskManagerTest {
         final int idEpic = epic.getId();
         taskManager.getEpic(idEpic);
         assertNotNull(taskManager.getHistory());
-        System.out.println(taskManager.getHistory());
-        System.out.println(historyManager.getHistory());
         assertEquals(taskManager.getHistory(), historyManager.getHistory(), "Истории просмотров не совпадают");
     }
 }

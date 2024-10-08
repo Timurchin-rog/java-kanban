@@ -21,5 +21,4 @@ public class Epic extends Task {
         subTasks.clear();
     }
 
-
 }

@@ -7,6 +7,7 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface TaskManager {
     HashMap<Integer, Task> printAllTasks();
@@ -47,5 +48,5 @@ public interface TaskManager {
 
     void removeEpic(int id);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 }

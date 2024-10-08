@@ -2,6 +2,7 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import service.HistoryManager;
 import service.Managers;
 import service.TaskManager;
 
@@ -18,18 +19,13 @@ public class Main {
         SubTask subTask3 = taskManager.createSubTask(new SubTask("Подзадача 3", Status.DONE, "Программирование", epic2));
         taskManager.getEpic(3);
         System.out.println(taskManager.getHistory());
+        taskManager.getSubTask(5);
         taskManager.getSubTask(6);
         System.out.println(taskManager.getHistory());
-        taskManager.getEpic(3);
-        taskManager.getTask(2);
-        taskManager.getEpic(4);
         taskManager.getSubTask(5);
+        taskManager.getSubTask(6);
         taskManager.getEpic(3);
-        taskManager.getEpic(3);
-        taskManager.getEpic(3);
-        taskManager.getEpic(3);
-        taskManager.getTask(2);
+        taskManager.removeSubTask(6);
         System.out.println(taskManager.getHistory());
     }
-
 }
