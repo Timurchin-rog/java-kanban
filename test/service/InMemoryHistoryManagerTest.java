@@ -33,15 +33,18 @@ class InMemoryHistoryManagerTest {
     @Test
     @DisplayName("должен получать заполненную историю просмотров")
     void shouldFillBrowsingHistory() {
+        taskManager.getEpic(epic.getId());
+        taskManager.getSubTask(subTask.getId());
         taskManager.getTask(task.getId());
         taskManager.getSubTask(subTask.getId());
         taskManager.getEpic(epic.getId());
         assertNotNull(historyManager.getHistory(), "История просмотров не заполнена");
+        assertEquals(historyManager.getHistory().size(), 3, "Присутствуют дубликаты");
         ArrayList<Task> browsingHistory = new ArrayList<>();
         browsingHistory.add(epic);
         browsingHistory.add(subTask);
         browsingHistory.add(task);
-        assertEquals(historyManager.getHistory(), browsingHistory, "История просмотров неверна");
+        assertEquals(historyManager.getHistory(), browsingHistory, "Нарушен порядок посмотров в истории");
     }
 
     @Test
