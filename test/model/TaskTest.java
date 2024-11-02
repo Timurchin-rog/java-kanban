@@ -20,7 +20,7 @@ class TaskTest {
     @BeforeEach
     void init() {
         taskManager = Managers.getDefault();
-        task = taskManager.createTask(new Task("Test Task", Status.NEW, "Test Task description"));
+        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW, "Test Task description"));
         taskId = task.getId();
     }
 
