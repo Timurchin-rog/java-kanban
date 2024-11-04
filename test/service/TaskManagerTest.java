@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Предок различных реализаций менеджеров")
 public class TaskManagerTest {
     InMemoryTaskManager manager;
     InMemoryHistoryManager historyManager;
