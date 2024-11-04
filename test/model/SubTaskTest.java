@@ -21,8 +21,9 @@ class SubTaskTest {
     @BeforeEach
     void init() {
         taskManager = Managers.getDefault();
-        epic = taskManager.createEpic(new Epic("Test Epic", Status.NEW, "Test Epic description"));
-        subTask = taskManager.createSubTask(new SubTask("Test SubTask", Status.NEW, "Test SubTask description", epic));
+        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", Status.NEW, "Test Epic description"));
+        subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK,
+                "Test SubTask", Status.NEW, "Test SubTask description", epic));
         subTaskId = subTask.getId();
     }
 

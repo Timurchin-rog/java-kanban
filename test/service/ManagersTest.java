@@ -3,6 +3,8 @@ package service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.history.HistoryManager;
+import service.history.InMemoryHistoryManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -20,7 +20,7 @@ class EpicTest {
     @BeforeEach
     void init() {
         taskManager = Managers.getDefault();
-        epic = taskManager.createEpic(new Epic("Test Epic", Status.NEW, "Test Epic description"));
+        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", Status.NEW, "Test Epic description"));
         epicId = epic.getId();
     }
 

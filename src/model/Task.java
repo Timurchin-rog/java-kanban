@@ -4,11 +4,21 @@ import java.util.Objects;
 
 public class Task {
     private int id;
+    private final Type type;
     private String name;
     private Status status;
     private String description;
 
-    public Task(String name, Status status, String description) {
+    public Task(int id, Type type, String name, Status status, String description) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.status = status;
+        this.description = description;
+    }
+
+    public Task(Type type, String name, Status status, String description) {
+        this.type = type;
         this.name = name;
         this.status = status;
         this.description = description;
@@ -20,6 +30,10 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public String getName() {
@@ -61,8 +75,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "model.Task{" +
-                "id=" + id +
+        return "id=" + id +
+                ", type=" + type +
                 ", name='" + name + '\'' +
                 ", status=" + status +
                 ", description='" + description + '\'' +

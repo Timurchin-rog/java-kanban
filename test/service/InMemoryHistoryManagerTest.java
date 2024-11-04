@@ -1,12 +1,11 @@
 package service;
 
-import model.Epic;
-import model.Status;
-import model.SubTask;
-import model.Task;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.history.HistoryManager;
+import service.history.InMemoryHistoryManager;
 
 import java.util.ArrayList;
 
@@ -15,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("HistoryManager")
 class InMemoryHistoryManagerTest {
+
     HistoryManager historyManager;
     TaskManager taskManager;
     Task task;
@@ -25,9 +25,10 @@ class InMemoryHistoryManagerTest {
     void init() {
         historyManager = new InMemoryHistoryManager();
         taskManager = new InMemoryTaskManager(historyManager);
-        task = taskManager.createTask(new Task("Test Task", Status.NEW, "Test Task description"));
-        epic = taskManager.createEpic(new Epic("Test Epic", Status.NEW, "Test Epic description"));
-        subTask = taskManager.createSubTask(new SubTask("Test SubTask", Status.NEW, "Test SubTask description", epic));
+        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW, "Test Task description"));
+        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", Status.NEW, "Test Epic description"));
+        subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask",
+                Status.NEW, "Test SubTask description", epic));
     }
 
     @Test

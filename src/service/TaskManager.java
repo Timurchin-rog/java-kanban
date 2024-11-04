@@ -38,7 +38,7 @@ public interface TaskManager {
 
     void updateTask(Task task, String name, Status status, String description);
 
-    void updateSubTask(Epic epic, SubTask subTask, String name, Status status, String description);
+    void updateSubTask(SubTask subTask, String name, Status status, String description);
 
     void updateEpic(Epic epic, String name, String description);
 

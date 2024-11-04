@@ -4,16 +4,17 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import service.history.HistoryManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    HashMap<Integer, SubTask> allSubTasks;
-    HashMap<Integer, Epic> epics;
-    HashMap<Integer, Task> tasks;
-    private final HistoryManager historyManager;
+    protected final HashMap<Integer, SubTask> allSubTasks;
+    protected final HashMap<Integer, Epic> epics;
+    protected final HashMap<Integer, Task> tasks;
+    protected final HistoryManager historyManager;
     int idGen = 0;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -119,10 +120,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateSubTask(Epic epic, SubTask subTask, String name, Status status, String description) {
+    public void updateSubTask(SubTask subTask, String name, Status status, String description) {
         subTask.setName(name);
         subTask.setStatus(status);
         subTask.setDescription(description);
+        Epic epic = subTask.getEpic();
         epic.removeSubTask(subTask);
         epic.addSubTask(subTask);
         calculateStatus(epic);
