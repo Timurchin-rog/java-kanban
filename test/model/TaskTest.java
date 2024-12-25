@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import service.Managers;
-import service.TaskManager;
+import service.memory.TaskManager;
 
 import java.util.HashMap;
 
@@ -20,7 +20,8 @@ class TaskTest {
     @BeforeEach
     void init() {
         taskManager = Managers.getDefault();
-        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW, "Test Task description"));
+        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW,
+                "Test Task description", 10, "01.01.2000, 12:00"));
         taskId = task.getId();
     }
 

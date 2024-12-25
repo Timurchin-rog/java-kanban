@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import service.history.HistoryManager;
 import service.history.InMemoryHistoryManager;
+import service.memory.InMemoryTaskManager;
+import service.memory.TaskManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

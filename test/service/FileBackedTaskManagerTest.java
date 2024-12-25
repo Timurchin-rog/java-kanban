@@ -1,7 +1,7 @@
 package service;
 
 import model.Status;
-import model.Task;
+import model.SubTask;
 import model.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FileBackedTaskManagerTest extends TaskManagerTest {
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     File file = new File("Test File.csv");
 
@@ -34,11 +34,12 @@ public class FileBackedTaskManagerTest extends TaskManagerTest {
     @Test
     @DisplayName("должен загружать задачи из файла")
     void shouldLoadTasksFromFile() {
-        Task task1 = manager.createTask(new Task(Type.TASK, "Test Task 1", Status.NEW, "Test Task 1 description"));
+        SubTask subTask1 = manager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask 1", Status.DONE,
+                "Test SubTask description 1", 50, "09.01.2010, 18:00", epic));
         FileBackedTaskManager loadManager = FileBackedTaskManager.loadFromFile(file);
-        assertEquals(loadManager.printAllTasks().size(), 2, "Задачи не загрузились из файла");
+        assertEquals(loadManager.printAllSubTasks().size(), 2, "Подзадачи не загрузились из файла");
         assertEquals(task, loadManager.tasks.get(task.getId()), "Задачи не совпадают");
-        assertEquals(task1, loadManager.tasks.get(task1.getId()), "Задачи не совпадают");
+        assertEquals(subTask1, loadManager.allSubTasks.get(subTask1.getId()), "Подзадачи не совпадают");
     }
 }
 

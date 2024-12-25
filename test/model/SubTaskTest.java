@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import service.Managers;
-import service.TaskManager;
+import service.memory.TaskManager;
 
 import java.util.HashMap;
 
@@ -21,9 +21,10 @@ class SubTaskTest {
     @BeforeEach
     void init() {
         taskManager = Managers.getDefault();
-        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", Status.NEW, "Test Epic description"));
+        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", "Test Epic description"));
         subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK,
-                "Test SubTask", Status.NEW, "Test SubTask description", epic));
+                "Test SubTask", Status.NEW, "Test SubTask description",
+                10, "01.01.2000, 12:00", epic));
         subTaskId = subTask.getId();
     }
 

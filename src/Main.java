@@ -1,26 +1,21 @@
 import model.*;
-import service.file.FileBackedTaskManager;
-
-import java.io.File;
+import service.Managers;
+import service.memory.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
-        FileBackedTaskManager fileManager = new FileBackedTaskManager(new File("File.csv"));
-
-        Task task1 = fileManager.createTask(new Task(Type.TASK, "Задача 1", Status.NEW, "Погулять"));
-        Task task2 = fileManager.createTask(new Task(Type.TASK, "Задача 2", Status.IN_PROGRESS, "Бегать"));
-        Epic epic1 = fileManager.createEpic(new Epic(Type.EPIC, "Эпик 1", Status.NEW, "Уборка"));
-        Epic epic2 = fileManager.createEpic(new Epic(Type.EPIC, "Эпик 2", Status.NEW, "ДЗ"));
-        SubTask subTask1 = fileManager.createSubTask(new SubTask(Type.SUBTASK,
-                "Подзадача 1", Status.DONE, "Мыть пол", epic1));
-        SubTask subTask2 = fileManager.createSubTask(new SubTask(Type.SUBTASK,
-                "Подзадача 2", Status.IN_PROGRESS, "Протирать пыль", epic1));
-        SubTask subTask3 = fileManager.createSubTask(new SubTask(Type.SUBTASK,
-                "Подзадача 3", Status.DONE, "Программирование", epic2));
-
-        fileManager.updateSubTask(subTask3, "Обновлённая подзадача", Status.DONE, "Жениться");
-        fileManager.removeSubTask(7);
-        fileManager.removeEpic(3);
+        TaskManager taskManager = Managers.getDefault();
+        Epic epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", "Test Epic description"));
+        SubTask subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK, "SubTask name",
+                Status.NEW, "SubTask description", 60, "01.09.2000, 08:00", epic));
+        Task task = taskManager.createTask(new Task(Type.TASK, "Task name", Status.NEW,
+                "Task description", 10, "01.01.2000, 12:00"));
+        SubTask subTask1 = (new SubTask(Type.SUBTASK, "SubTask name",
+                Status.NEW, "SubTask description", 45, "01.01.2984, 08:00", epic));
+        SubTask subTask2 = taskManager.createSubTask(new SubTask(Type.SUBTASK, "SubTask name",
+                Status.NEW, "SubTask description", 20, "01.09.1995, 08:00", epic));
+        taskManager.updateSubTask(subTask, subTask1);
+        System.out.println(taskManager.getPrioritizedTasks());
     }
 }

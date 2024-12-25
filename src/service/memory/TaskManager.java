@@ -1,13 +1,13 @@
-package service;
+package service.memory;
 
 import model.Epic;
-import model.Status;
 import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     HashMap<Integer, Task> printAllTasks();
@@ -36,11 +36,11 @@ public interface TaskManager {
 
     Epic getEpic(int id);
 
-    void updateTask(Task task, String name, Status status, String description);
+    void updateTask(Task task, Task updatedTask);
 
-    void updateSubTask(SubTask subTask, String name, Status status, String description);
+    void updateSubTask(SubTask subTask, SubTask updatedSubTask);
 
-    void updateEpic(Epic epic, String name, String description);
+    void updateEpic(Epic epic, Epic updatedEpic);
 
     void removeTask(int id);
 
@@ -49,4 +49,6 @@ public interface TaskManager {
     void removeEpic(int id);
 
     List<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
 }

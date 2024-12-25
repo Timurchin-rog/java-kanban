@@ -1,12 +1,15 @@
 package service.file;
 
 import model.*;
-import service.InMemoryTaskManager;
 import service.Managers;
 import service.history.HistoryManager;
+import service.memory.InMemoryTaskManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -69,25 +72,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateTask(Task task, String name, Status status, String description) {
-        super.updateTask(task, name, status, description);
+    public void updateTask(Task task, Task updatedTask) {
+        super.updateTask(task, updatedTask);
         saveInFile();
     }
 
     @Override
-    public void updateSubTask(SubTask subTask, String name, Status status, String description) {
-        super.updateSubTask(subTask, name, status, description);
+    public void updateSubTask(SubTask subTask, SubTask updatedSubTask) {
+        super.updateSubTask(subTask, updatedSubTask);
         saveInFile();
     }
 
     @Override
-    public void updateEpic(Epic epic, String name, String description) {
-        super.updateEpic(epic, name, description);
+    public void updateEpic(Epic epic, Epic updatedEpic) {
+        super.updateEpic(epic, updatedEpic);
         saveInFile();
     }
 
     private void loadFromFile() {
-        String string = "";
+        String string;
         try (final FileReader reader = new FileReader(file, StandardCharsets.UTF_8);
              final BufferedReader bufReader = new BufferedReader(reader)) {
             bufReader.readLine();
@@ -116,9 +119,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             status = Status.DONE;
         }
         String description = stringArr[4];
-        Task task = new Task(id, Type.TASK, name, status, description);
-        Epic epic = new Epic(id, Type.EPIC, name, status, description);
-        SubTask subTask = new SubTask(id, Type.EPIC, name, status, description, epic);
+        Duration duration = Duration.parse(stringArr[5]);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
+        LocalDateTime startTime = LocalDateTime.parse(stringArr[6]);
+        String startTimeStr = startTime.format(formatter);
+        Task task = new Task(id, Type.TASK, name, status, description, (int) duration.toMinutes(), startTimeStr);
+        Epic epic = new Epic(id, Type.EPIC, name, status, description, (int) duration.toMinutes(), startTimeStr);
+        SubTask subTask = new SubTask(id, Type.EPIC, name, status, description,
+                (int) duration.toMinutes(), startTimeStr, epic);
         switch (stringArr[1]) {
             case "TASK":
                 tasks.put(id, task);
@@ -131,22 +139,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 epic.addSubTask(subTask);
                 break;
         }
+        calculateEpic(epic);
     }
 
     private void saveInFile() {
         try (final BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
-            writer.append("id, type, name, status, description, epic");
+            writer.append("id, type, name, status, description, duration, startTime, epic");
             writer.newLine();
             for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
-                writer.append(toStringTask(entry.getValue()));
+                writer.append(toString(entry.getValue()));
                 writer.newLine();
             }
             for (Map.Entry<Integer, Epic> entry : epics.entrySet()) {
-                writer.append(toStringTask(entry.getValue()));
+                writer.append(toString(entry.getValue()));
                 writer.newLine();
             }
             for (Map.Entry<Integer, SubTask> entry : allSubTasks.entrySet()) {
-                writer.append(toStringSubTask(entry.getValue()));
+                writer.append(toString(entry.getValue()));
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -154,14 +163,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private String toStringTask(Task task) {
-        return task.getId() + ", " + task.getType() + ", " + task.getName() + ", " + task.getStatus() + ", "
-                + task.getDescription();
-    }
-
-    private String toStringSubTask(SubTask subTask) {
-        return subTask.getId() + ", " + subTask.getType() + ", " + subTask.getName() + ", " + subTask.getStatus() + ", "
-                + subTask.getDescription() + ", " + subTask.getEpic().getName();
+    private String toString(Task task) {
+        return task.getId() + ", " + task.getType() + ", " + task.getName() + ", " + task.getStatus()
+                + ", " + task.getDescription() + ", " + task.getDuration() + ", " + task.getStartTime()
+                + ", " + task.getEpicId();
     }
 
 }
