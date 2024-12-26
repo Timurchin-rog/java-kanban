@@ -23,7 +23,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен удалять все задачи")
+    @DisplayName("Должен удалять все задачи")
     void shouldRemoveAllTasks() {
         assertNotNull(manager.tasks, "Хеш-таблица с задачами пуста");
         manager.removeAllTasks();
@@ -32,7 +32,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен удалять все подзадачи")
+    @DisplayName("Должен удалять все подзадачи")
     void shouldRemoveAllSubTasks() {
         assertNotNull(manager.allSubTasks, "Хеш-таблица с подзадачами пуста");
         manager.removeAllSubTasks(epic);
@@ -41,7 +41,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен удалять все эпики")
+    @DisplayName("Должен удалять все эпики")
     void shouldRemoveAllEpics() {
         assertNotNull(manager.epics, "Хеш-таблица с эпиками пуста");
         manager.removeAllEpics();
@@ -50,7 +50,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен находить подзадачи определённого эпика")
+    @DisplayName("Должен находить подзадачи определённого эпика")
     void shouldFindSubTaskOfEpic() {
         final ArrayList<SubTask> subTasksOfEpic = manager.getSubTasksOfEpic(epic);
         assertEquals(subTasksOfEpic.size(), epic.subTasks.size(), "Разный размер списков");
@@ -59,7 +59,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен находить задачи по ID")
+    @DisplayName("Должен находить задачи по ID")
     void shouldFindTasksById() {
         final int idTask = task.getId();
         final Task foundTask = manager.getTask(idTask);
@@ -67,7 +67,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен находить подзадачи по ID")
+    @DisplayName("Должен находить подзадачи по ID")
     void shouldFindSubTasksById() {
         final int idSubTask = subTask.getId();
         final Task foundSubTask = manager.getSubTask(idSubTask);
@@ -75,7 +75,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен находить эпики по ID")
+    @DisplayName("Должен находить эпики по ID")
     void shouldFindEpicsById() {
         final int idEpic = epic.getId();
         final Task foundEpic = manager.getEpic(idEpic);
@@ -83,7 +83,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен обновлять подзадачи и вычислять статус эпика")
+    @DisplayName("Должен обновлять подзадачи и вычислять статус эпика")
     void shouldUpdateSubTaskAndCalculateStatusOfEpic() {
         SubTask updatedSubTaskDone = new SubTask(Type.SUBTASK, "Test updatedSubTask", Status.DONE,
                 "Test updatedSubTask description", 10, "01.01.2000, 12:00", epic);
@@ -96,7 +96,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен удалять подзадачи и из хеш-таблицы и из списочного массива эпика")
+    @DisplayName("Должен удалять подзадачи и из хеш-таблицы и из списочного массива эпика")
     void shouldRemoveSubTask() {
         final int idSubTask = subTask.getId();
         manager.removeSubTask(idSubTask);
@@ -105,7 +105,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен получать историю просмотров")
+    @DisplayName("Должен получать историю просмотров")
     void shouldGetBrowsingHistory() {
         final int idTask = task.getId();
         manager.getTask(idTask);
@@ -118,7 +118,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен вычислять время начала и окончания эпика")
+    @DisplayName("Должен вычислять время начала и окончания эпика")
     void shouldCalculateStatusAndTimeOfEpic() {
         SubTask subTask1 = manager.createSubTask(new SubTask(Type.SUBTASK, "SubTask1",
                 Status.NEW, "SubTask1", 45, "01.01.2984, 08:00", epic));
@@ -129,7 +129,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     @Test
-    @DisplayName("должен получать список задач по приоритету")
+    @DisplayName("Должен получать список задач по приоритету")
     void shouldGetPrioritizedListOfTask() {
         SubTask updatedSubTask = new SubTask(Type.SUBTASK, "Test updatedSubTask", Status.IN_PROGRESS,
                 "Test updatedSubTask description", 10, "01.01.0001, 12:00", epic);

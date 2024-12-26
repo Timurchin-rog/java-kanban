@@ -103,7 +103,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (tasks.get(id) != null)
             historyManager.add(tasks.get(id));
         else
-            throw new NotFoundException("Не найдена задача под номером: " + id);
+            throw new NotFoundException(String.format("Не найдена задача под номером: %d", id));
         return tasks.get(id);
     }
 
@@ -112,7 +112,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (allSubTasks.get(id) != null)
             historyManager.add(allSubTasks.get(id));
         else
-            throw new NotFoundException("Не найдена задача под номером: " + id);
+            throw new NotFoundException(String.format("Не найдена задача под номером: %d", id));
         return allSubTasks.get(id);
     }
 
@@ -121,7 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.get(id) != null)
             historyManager.add(epics.get(id));
         else
-            throw new NotFoundException("Не найдена задача под номером: " + id);
+            throw new NotFoundException(String.format("Не найдена задача под номером: %d", id));
         return epics.get(id);
     }
 
@@ -240,7 +240,7 @@ public class InMemoryTaskManager implements TaskManager {
                     && task.getStartTime().isBefore(t.getEndTime()))
                     | (task.getEndTime().isAfter(t.getStartTime())
                     && task.getEndTime().isBefore(t.getEndTime()))) {
-                throw new ValidationException("Пересечение задачи " + task.getId() + " с задачей под номером " + t.getId());
+                throw new ValidationException(String.format("Пересечение задачи %d с задачей под номером %d", task.getId(), t.getId()));
             }
         }
     }

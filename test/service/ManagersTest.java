@@ -26,13 +26,13 @@ class ManagersTest {
     }
 
     @Test
-    @DisplayName("должен возвращать объект TaskManager")
+    @DisplayName("Должен возвращать объект TaskManager")
     void shouldReturnObjectOfTaskManager() {
         assertEquals(taskManager1.getClass(), taskManager2.getClass(), "Классы экземпляров менеджеров не совпадают");
     }
 
     @Test
-    @DisplayName("должен возвращать объект HistoryManager")
+    @DisplayName("Должен возвращать объект HistoryManager")
     void shouldReturnObjectOfHistoryManager() {
         assertEquals(historyManager1.getClass(), historyManager2.getClass(), "Классы экземпляров менеджеров не совпадают");
     }

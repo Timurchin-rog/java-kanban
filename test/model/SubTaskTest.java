@@ -29,7 +29,7 @@ class SubTaskTest {
     }
 
     @Test
-    @DisplayName("должна совпадать со своей копией")
+    @DisplayName("Должна совпадать со своей копией")
     void shouldEqualsWithCopy() {
         final SubTask savedSubTask = taskManager.getSubTask(subTaskId);
         assertNotNull(savedSubTask, "Подзадача не найдена.");
@@ -37,7 +37,7 @@ class SubTaskTest {
     }
 
     @Test
-    @DisplayName("должна совпадать со своей копией из хеш-таблицы")
+    @DisplayName("Должна совпадать со своей копией из хеш-таблицы")
     void shouldEqualsWithCopyFromHashMap() {
         final HashMap<Integer, SubTask> subTasks = taskManager.printAllSubTasks();
         assertNotNull(subTasks, "Подзадачи не возвращаются.");

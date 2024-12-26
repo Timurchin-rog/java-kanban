@@ -25,7 +25,7 @@ class EpicTest {
     }
 
     @Test
-    @DisplayName("должен совпадать со своей копией")
+    @DisplayName("Должен совпадать со своей копией")
     void shouldEqualsWithCopy() {
         final Epic savedEpic = taskManager.getEpic(epicId);
         assertNotNull(savedEpic, "Эпик не найден.");
@@ -33,7 +33,7 @@ class EpicTest {
     }
 
     @Test
-    @DisplayName("должен совпадать со своей копией из хеш-таблицы")
+    @DisplayName("Должен совпадать со своей копией из хеш-таблицы")
     void shouldEqualsWithCopyFromHashMap() {
         final HashMap<Integer, Epic> epics = taskManager.printAllEpics();
         assertNotNull(epics, "Эпики не возвращаются.");

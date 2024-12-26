@@ -12,6 +12,7 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("FileManager")
 class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     File file = new File("Test File.csv");
@@ -23,7 +24,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     }
 
     @Test
-    @DisplayName("загружать задачи из пустого файла")
+    @DisplayName("Должен агружать задачи из пустого файла")
     void shouldLoadTasksFromEmptyFile() {
         manager.removeTask(task.getId());
         manager.removeEpic(epic.getId());
@@ -32,7 +33,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     }
 
     @Test
-    @DisplayName("должен загружать задачи из файла")
+    @DisplayName("Должен загружать задачи из файла")
     void shouldLoadTasksFromFile() {
         SubTask subTask1 = manager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask 1", Status.DONE,
                 "Test SubTask description 1", 50, "09.01.2010, 18:00", epic));

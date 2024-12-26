@@ -26,7 +26,7 @@ class TaskTest {
     }
 
     @Test
-    @DisplayName("должна совпадать со своей копией")
+    @DisplayName("Должна совпадать со своей копией")
     void shouldEqualsWithCopy() {
         final Task savedTask = taskManager.getTask(taskId);
         assertNotNull(savedTask, "Задача не найдена.");
@@ -34,7 +34,7 @@ class TaskTest {
     }
 
     @Test
-    @DisplayName("должна совпадать со своей копией из хеш-таблицы")
+    @DisplayName("Должна совпадать со своей копией из хеш-таблицы")
     void shouldEqualsWithCopyFromHashMap() {
         final HashMap<Integer, Task> tasks = taskManager.printAllTasks();
         assertNotNull(tasks, "Задачи не возвращаются.");
