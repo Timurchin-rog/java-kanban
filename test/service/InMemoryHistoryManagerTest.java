@@ -6,6 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import service.history.HistoryManager;
 import service.history.InMemoryHistoryManager;
+import service.memory.InMemoryTaskManager;
+import service.memory.TaskManager;
 
 import java.util.ArrayList;
 
@@ -25,14 +27,15 @@ class InMemoryHistoryManagerTest {
     void init() {
         historyManager = new InMemoryHistoryManager();
         taskManager = new InMemoryTaskManager(historyManager);
-        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW, "Test Task description"));
-        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", Status.NEW, "Test Epic description"));
-        subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask",
-                Status.NEW, "Test SubTask description", epic));
+        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW,
+                "Test Task description", 10, "01.01.2000, 12:00"));
+        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", "Test Epic description"));
+        subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask", Status.NEW,
+                "Test SubTask description", 10, "01.01.2000, 12:00", epic));
     }
 
     @Test
-    @DisplayName("должен получать заполненную историю просмотров")
+    @DisplayName("Должен получать заполненную историю просмотров")
     void shouldFillBrowsingHistory() {
         taskManager.getEpic(epic.getId());
         taskManager.getSubTask(subTask.getId());
@@ -49,7 +52,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    @DisplayName("должен удалять задачу из истории просмотров")
+    @DisplayName("Должен удалять задачу из истории просмотров")
     void shouldRemoveTaskFromBrowsingHistory() {
         taskManager.getTask(task.getId());
         taskManager.getSubTask(subTask.getId());

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import service.Managers;
-import service.TaskManager;
+import service.memory.TaskManager;
 
 import java.util.HashMap;
 
@@ -20,12 +20,12 @@ class EpicTest {
     @BeforeEach
     void init() {
         taskManager = Managers.getDefault();
-        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", Status.NEW, "Test Epic description"));
+        epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", "Test Epic description"));
         epicId = epic.getId();
     }
 
     @Test
-    @DisplayName("должен совпадать со своей копией")
+    @DisplayName("Должен совпадать со своей копией")
     void shouldEqualsWithCopy() {
         final Epic savedEpic = taskManager.getEpic(epicId);
         assertNotNull(savedEpic, "Эпик не найден.");
@@ -33,7 +33,7 @@ class EpicTest {
     }
 
     @Test
-    @DisplayName("должен совпадать со своей копией из хеш-таблицы")
+    @DisplayName("Должен совпадать со своей копией из хеш-таблицы")
     void shouldEqualsWithCopyFromHashMap() {
         final HashMap<Integer, Epic> epics = taskManager.printAllEpics();
         assertNotNull(epics, "Эпики не возвращаются.");
