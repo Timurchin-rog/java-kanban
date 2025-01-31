@@ -116,7 +116,7 @@ public class SubtaskHandler extends BaseHandler {
         try {
             Subtask subtask = getSubtaskFromRequest(exchange);
             taskManager.createSubtask(subtask);
-            writeResponse(exchange, "Подзадача с идентификатором " + subtask.getId() + " создана", 201);
+            writeResponse(exchange, String.format("Подзадача с идентификатором %d создана", subtask.getId()), 201);
         } catch (ValidationException e) {
             writeResponse(exchange, e.getMessage(), 406);
         }
@@ -126,7 +126,7 @@ public class SubtaskHandler extends BaseHandler {
         try {
             Subtask subtask = getSubtaskFromRequest(exchange);
             taskManager.updateSubtask(getTaskId(exchange), subtask);
-            writeResponse(exchange, "Подзадача с идентификатором " + subtask.getId() + " обновлена", 201);
+            writeResponse(exchange, String.format("Подзадача с идентификатором %d обновлена", subtask.getId()), 201);
         } catch (ValidationException e) {
             writeResponse(exchange, e.getMessage(), 406);
         }
@@ -135,6 +135,6 @@ public class SubtaskHandler extends BaseHandler {
     public void handleDeleteSubtask(HttpExchange exchange) throws IOException {
         int id = getTaskId(exchange);
         taskManager.removeSubtask(id);
-        writeResponse(exchange, "Подзадача с идентификатором " + id + " удалена", 201);
+        writeResponse(exchange, String.format("Подзадача с идентификатором %d удалена", id), 201);
     }
 }

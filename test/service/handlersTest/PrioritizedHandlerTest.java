@@ -43,7 +43,7 @@ public class PrioritizedHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту список задач, отсортированных по приоритету")
     void shouldSendToClientAllEpics() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/prioritized");
+        URI url = URI.create(String.format("http://localhost:%d/prioritized", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

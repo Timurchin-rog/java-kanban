@@ -58,7 +58,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту все подзадачи")
     void shouldSendToClientAllSubtasks() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks");
+        URI url = URI.create(String.format("http://localhost:%d/subtasks", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -71,7 +71,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту подзадачу по ID")
     void shouldSendToClientSubtaskByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks/" + subtask.getId());
+        URI url = URI.create(String.format("http://localhost:%d/subtasks/%d", httpTaskServer.getPORT(), subtask.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -84,7 +84,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен выбрасывать NotFoundException")
     void shouldThrowNotFoundException() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks/" + subtask.getId() + 1);
+        URI url = URI.create(String.format("http://localhost:%d/subtasks/%d", httpTaskServer.getPORT(), subtask.getId() + 1));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -97,7 +97,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен добавлять подзадачу")
     void shouldAddSubtask() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks");
+        URI url = URI.create(String.format("http://localhost:%d/subtasks", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(subtaskJson)).build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -114,7 +114,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен выбрасывать ValidationException")
     void shouldThrowValidationException() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks/");
+        URI url = URI.create(String.format("http://localhost:%d/subtasks", httpTaskServer.getPORT()));
         Subtask subtaskAdded = new Subtask(Type.SUBTASK, "Test SubtaskAdd", "NEW",
                 "Test SubtaskAdd description", Duration.ofMinutes(10),
                 LocalDateTime.of(2105, 1, 12, 12, 5, 0), epic.getId());
@@ -132,7 +132,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен обновлять подзадачу по ID")
     void shouldUpdateSubtaskByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks/" + subtask.getId());
+        URI url = URI.create(String.format("http://localhost:%d/subtasks/%d", httpTaskServer.getPORT(), subtask.getId()));
         Subtask subtaskUpd = new Subtask(Type.SUBTASK, "Test SubtaskUpd", "NEW",
                 "Test SubtaskUpd description", Duration.ofMinutes(10),
                 LocalDateTime.of(2105, 1, 12, 12, 20, 0), epic.getId());
@@ -156,7 +156,7 @@ public class SubtaskHandlerTest {
     @Test
     @DisplayName("Должен удалять подзадачу по ID")
     void shouldDeleteSubtasksByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/subtasks/" + subtask.getId());
+        URI url = URI.create(String.format("http://localhost:%d/subtasks/%d", httpTaskServer.getPORT(), subtask.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

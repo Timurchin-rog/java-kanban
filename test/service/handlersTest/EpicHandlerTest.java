@@ -60,7 +60,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту все эпики")
     void shouldSendToClientAllEpics() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics");
+        URI url = URI.create(String.format("http://localhost:%d/epics", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -73,7 +73,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту эпик по ID")
     void shouldSendToClientEpicByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics/" + epic.getId());
+        URI url = URI.create(String.format("http://localhost:%d/epics/%d", httpTaskServer.getPORT(), epic.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -86,7 +86,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен выбрасывать NotFoundException")
     void shouldThrowNotFoundException() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics/" + epic.getId() + 1);
+        URI url = URI.create(String.format("http://localhost:%d/epics/%d", httpTaskServer.getPORT(), epic.getId()) + 1);
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -99,7 +99,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту все подзадачи эпика")
     void shouldSendToClientAllSubtasksOfEpic() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics/" + epic.getId());
+        URI url = URI.create(String.format("http://localhost:%d/epics/%d", httpTaskServer.getPORT(), epic.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -114,7 +114,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен добавлять эпик")
     void shouldAddEpics() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics");
+        URI url = URI.create(String.format("http://localhost:%d/epics", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(epicJson)).build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -131,7 +131,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен обновлять эпик по ID")
     void shouldUpdateEpicByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics/" + epic.getId());
+        URI url = URI.create(String.format("http://localhost:%d/epics/%d", httpTaskServer.getPORT(), epic.getId()));
         Epic epicUpd = new Epic(Type.EPIC, "Test EpicUpd", "Test EpicUpd description");
         String epicUpdJson = gson.toJson(epicUpd);
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(epicUpdJson)).build();
@@ -153,7 +153,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен удалять эпик по ID")
     void shouldDeleteEpicByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics/" + epic.getId());
+        URI url = URI.create(String.format("http://localhost:%d/epics/%d", httpTaskServer.getPORT(), epic.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -170,7 +170,7 @@ public class EpicHandlerTest {
     @Test
     @DisplayName("Должен удалять все эпики")
     void shouldDeleteAllEpics() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/epics/");
+        URI url = URI.create(String.format("http://localhost:%d/epics", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

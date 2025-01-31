@@ -130,7 +130,7 @@ public class EpicHandler extends BaseHandler {
         try {
             Epic epic = getEpicFromRequest(exchange);
             taskManager.createEpic(epic);
-            writeResponse(exchange, "Эпик с идентификатором " + epic.getId() + " создан", 201);
+            writeResponse(exchange, String.format("Эпик с идентификатором %d создан", epic.getId()), 201);
         } catch (ValidationException e) {
             writeResponse(exchange, e.getMessage(), 406);
         }
@@ -140,7 +140,7 @@ public class EpicHandler extends BaseHandler {
         try {
             Epic epic = getEpicFromRequest(exchange);
             taskManager.updateEpic(getTaskId(exchange), epic);
-            writeResponse(exchange, "Эпик с идентификатором " + epic.getId() + " обновлён", 201);
+            writeResponse(exchange, String.format("Эпик с идентификатором %d обновлён", epic.getId()), 201);
         } catch (ValidationException e) {
             writeResponse(exchange, e.getMessage(), 406);
         }
@@ -154,6 +154,6 @@ public class EpicHandler extends BaseHandler {
     public void handleDeleteEpic(HttpExchange exchange) throws IOException {
         int id = getTaskId(exchange);
         taskManager.removeEpic(id);
-        writeResponse(exchange, "Эпик с идентификатором " + id + " удалён", 201);
+        writeResponse(exchange, String.format("Эпик с идентификатором %d удалён", id), 201);
     }
 }

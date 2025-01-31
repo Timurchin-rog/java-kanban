@@ -123,7 +123,7 @@ public class TaskHandler extends BaseHandler {
         try {
             Task task = getTaskFromRequest(exchange);
             taskManager.createTask(task);
-            writeResponse(exchange, "Задача с идентификатором " + task.getId() + " создана", 201);
+            writeResponse(exchange, String.format("Задача с идентификатором %d создана", task.getId()), 201);
         } catch (ValidationException e) {
             writeResponse(exchange, e.getMessage(), 406);
         }
@@ -133,7 +133,7 @@ public class TaskHandler extends BaseHandler {
         try {
             Task task = getTaskFromRequest(exchange);
             taskManager.updateTask(getTaskId(exchange), task);
-            writeResponse(exchange, "Задача с идентификатором " + task.getId() + " обновлена", 201);
+            writeResponse(exchange, String.format("Задача с идентификатором %d обновлена", task.getId()), 201);
         } catch (ValidationException e) {
             writeResponse(exchange, e.getMessage(), 406);
         }
@@ -147,6 +147,6 @@ public class TaskHandler extends BaseHandler {
     public void handleDeleteTask(HttpExchange exchange) throws IOException {
         int id = getTaskId(exchange);
         taskManager.removeTask(id);
-        writeResponse(exchange, "Задача с идентификатором " + id + " удалена", 201);
+        writeResponse(exchange, String.format("Задача с идентификатором %d удалена", id), 201);
     }
 }

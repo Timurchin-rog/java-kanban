@@ -43,7 +43,7 @@ public class HistoryHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту историю просмотров")
     void shouldSendToClientAllEpics() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/history");
+        URI url = URI.create(String.format("http://localhost:%d/history", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

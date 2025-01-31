@@ -55,7 +55,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту все задачи")
     void shouldSendToClientAllTasks() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks");
+        URI url = URI.create(String.format("http://localhost:%d/tasks", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -68,7 +68,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен отправлять клиенту задачу по ID")
     void shouldSendToClientTaskByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks/" + task.getId());
+        URI url = URI.create(String.format("http://localhost:%d/tasks/%d", httpTaskServer.getPORT(), task.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -81,7 +81,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен выбрасывать NotFoundException")
     void shouldThrowNotFoundException() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks/" + task.getId() + 1);
+        URI url = URI.create(String.format("http://localhost:%d/tasks/%d", httpTaskServer.getPORT(), task.getId() + 1));
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -94,7 +94,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен добавлять задачу")
     void shouldAddTask() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks");
+        URI url = URI.create(String.format("http://localhost:%d/tasks", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(taskJson)).build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -111,7 +111,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен выбрасывать ValidationException")
     void shouldThrowValidationException() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks/");
+        URI url = URI.create(String.format("http://localhost:%d/tasks", httpTaskServer.getPORT()));
         Task taskAdded = new Task(1, Type.TASK, "Test TaskAdded", "NEW", "Test Task description",
                 Duration.ofMinutes(10),
                 LocalDateTime.of(2105, 1, 12, 12, 5, 0));
@@ -129,7 +129,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен обновлять задачу по ID")
     void shouldUpdateTaskByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks/" + task.getId());
+        URI url = URI.create(String.format("http://localhost:%d/tasks/%d", httpTaskServer.getPORT(), task.getId()));
         Task taskUpd = new Task(1, Type.TASK, "Test TaskUpd", "NEW", "Test Task description",
                 Duration.ofMinutes(10),
                 LocalDateTime.of(2105, 1, 12, 12, 0, 0));
@@ -152,7 +152,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен удалять все задачи")
     void shouldDeleteTasks() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks/");
+        URI url = URI.create(String.format("http://localhost:%d/tasks", httpTaskServer.getPORT()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -169,7 +169,7 @@ public class TaskHandlerTest {
     @Test
     @DisplayName("Должен удалять задачу по ID")
     void shouldDeleteTaskByID() {
-        URI url = URI.create("http://localhost:" + httpTaskServer.getPORT() + "/tasks/" + task.getId());
+        URI url = URI.create(String.format("http://localhost:%d/tasks/%d", httpTaskServer.getPORT(), task.getId()));
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
