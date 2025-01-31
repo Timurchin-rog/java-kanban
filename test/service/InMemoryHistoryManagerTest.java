@@ -1,6 +1,9 @@
 package service;
 
-import model.*;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import model.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,8 @@ import service.history.InMemoryHistoryManager;
 import service.memory.InMemoryTaskManager;
 import service.memory.TaskManager;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,32 +26,34 @@ class InMemoryHistoryManagerTest {
     TaskManager taskManager;
     Task task;
     Epic epic;
-    SubTask subTask;
+    Subtask subtask;
 
     @BeforeEach
     void init() {
         historyManager = new InMemoryHistoryManager();
         taskManager = new InMemoryTaskManager(historyManager);
-        task = taskManager.createTask(new Task(Type.TASK, "Test Task", Status.NEW,
-                "Test Task description", 10, "01.01.2000, 12:00"));
+        task = taskManager.createTask(new Task(Type.TASK, "Test Task", "NEW",
+                "Test Task description", Duration.ofMinutes(10),
+                LocalDateTime.of(2000, 1, 1, 12, 0, 0)));
         epic = taskManager.createEpic(new Epic(Type.EPIC, "Test Epic", "Test Epic description"));
-        subTask = taskManager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask", Status.NEW,
-                "Test SubTask description", 10, "01.01.2000, 12:00", epic));
+        subtask = taskManager.createSubtask(new Subtask(Type.SUBTASK, "Test Subtask", "NEW",
+                "Test Subtask description", Duration.ofMinutes(10),
+                LocalDateTime.of(2000, 1, 1, 12, 0, 0), epic.getId()));
     }
 
     @Test
     @DisplayName("Должен получать заполненную историю просмотров")
     void shouldFillBrowsingHistory() {
         taskManager.getEpic(epic.getId());
-        taskManager.getSubTask(subTask.getId());
+        taskManager.getSubtask(subtask.getId());
         taskManager.getTask(task.getId());
-        taskManager.getSubTask(subTask.getId());
+        taskManager.getSubtask(subtask.getId());
         taskManager.getEpic(epic.getId());
         assertNotNull(historyManager.getHistory(), "История просмотров не заполнена");
         assertEquals(historyManager.getHistory().size(), 3, "Присутствуют дубликаты");
         ArrayList<Task> browsingHistory = new ArrayList<>();
         browsingHistory.add(epic);
-        browsingHistory.add(subTask);
+        browsingHistory.add(subtask);
         browsingHistory.add(task);
         assertEquals(historyManager.getHistory(), browsingHistory, "Нарушен порядок посмотров в истории");
     }
@@ -55,7 +62,7 @@ class InMemoryHistoryManagerTest {
     @DisplayName("Должен удалять задачу из истории просмотров")
     void shouldRemoveTaskFromBrowsingHistory() {
         taskManager.getTask(task.getId());
-        taskManager.getSubTask(subTask.getId());
+        taskManager.getSubtask(subtask.getId());
         taskManager.getEpic(epic.getId());
         historyManager.remove(task.getId());
         assertEquals(historyManager.getHistory().size(), 2, "Задача не удалена");
