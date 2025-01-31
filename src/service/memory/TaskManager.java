@@ -1,7 +1,7 @@
 package service.memory;
 
 import model.Epic;
-import model.SubTask;
+import model.Subtask;
 import model.Task;
 
 import java.util.ArrayList;
@@ -10,41 +10,39 @@ import java.util.List;
 import java.util.TreeSet;
 
 public interface TaskManager {
-    HashMap<Integer, Task> printAllTasks();
+    HashMap<Integer, Task> getAllTasks();
 
-    HashMap<Integer, SubTask> printAllSubTasks();
+    HashMap<Integer, Subtask> getAllSubtasks();
 
-    HashMap<Integer, Epic> printAllEpics();
+    HashMap<Integer, Epic> getAllEpics();
 
     void removeAllTasks();
-
-    void removeAllSubTasks(Epic epic);
 
     void removeAllEpics();
 
     Task createTask(Task task);
 
-    SubTask createSubTask(SubTask subTask);
+    Subtask createSubtask(Subtask subtask);
 
     Epic createEpic(Epic epic);
 
-    ArrayList<SubTask> getSubTasksOfEpic(Epic epic);
+    ArrayList<Subtask> getSubtasksOfEpic(int epicId);
 
     Task getTask(int id);
 
-    SubTask getSubTask(int id);
+    Subtask getSubtask(int id);
 
     Epic getEpic(int id);
 
-    void updateTask(Task task, Task updatedTask);
+    void updateTask(int id, Task updatedTask);
 
-    void updateSubTask(SubTask subTask, SubTask updatedSubTask);
+    void updateSubtask(int id, Subtask updatedSubtask);
 
-    void updateEpic(Epic epic, Epic updatedEpic);
+    void updateEpic(int id, Epic updatedEpic);
 
     void removeTask(int id);
 
-    void removeSubTask(int id);
+    void removeSubtask(int id);
 
     void removeEpic(int id);
 

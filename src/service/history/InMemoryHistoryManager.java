@@ -13,16 +13,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node next;
         Node prev;
 
-        Node(Node prev, Task element, Node next) {
+        private Node(Node prev, Task element, Node next) {
             this.item = element;
             this.next = next;
             this.prev = prev;
         }
     }
 
-    HashMap<Integer, Node> historyMap = new HashMap<>();
-    Node first;
-    Node last;
+    private HashMap<Integer, Node> historyMap = new HashMap<>();
+    private Node first;
+    private Node last;
 
     @Override
     public void add(Task task) {

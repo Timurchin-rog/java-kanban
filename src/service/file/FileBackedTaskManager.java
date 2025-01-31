@@ -1,6 +1,9 @@
 package service.file;
 
-import model.*;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import model.Type;
 import service.Managers;
 import service.history.HistoryManager;
 import service.memory.InMemoryTaskManager;
@@ -14,7 +17,7 @@ import java.util.Map;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
-    int idGen = 0;
+    private int idGen = 0;
 
     public FileBackedTaskManager(File file) {
         super(Managers.getDefaultHistory());
@@ -40,8 +43,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public SubTask createSubTask(SubTask subTask) {
-        SubTask newSubTask = super.createSubTask(subTask);
+    public Subtask createSubtask(Subtask subtask) {
+        Subtask newSubTask = super.createSubtask(subtask);
         saveInFile();
         return newSubTask;
     }
@@ -60,8 +63,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void removeSubTask(int id) {
-        super.removeSubTask(id);
+    public void removeSubtask(int id) {
+        super.removeSubtask(id);
         saveInFile();
     }
 
@@ -72,20 +75,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateTask(Task task, Task updatedTask) {
-        super.updateTask(task, updatedTask);
+    public void updateTask(int id, Task updatedTask) {
+        super.updateTask(id, updatedTask);
         saveInFile();
     }
 
     @Override
-    public void updateSubTask(SubTask subTask, SubTask updatedSubTask) {
-        super.updateSubTask(subTask, updatedSubTask);
+    public void updateSubtask(int id, Subtask updatedSubtask) {
+        super.updateSubtask(id, updatedSubtask);
         saveInFile();
     }
 
     @Override
-    public void updateEpic(Epic epic, Epic updatedEpic) {
-        super.updateEpic(epic, updatedEpic);
+    public void updateEpic(int id, Epic updatedEpic) {
+        super.updateEpic(id, updatedEpic);
         saveInFile();
     }
 
@@ -110,33 +113,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             idGen = id;
         }
         String name = stringArr[2];
-        Status status = null;
-        if (stringArr[3].equals("NEW")) {
-            status = Status.NEW;
-        } else if (stringArr[3].equals("IN_PROGRESS")) {
-            status = Status.IN_PROGRESS;
-        } else if (stringArr[3].equals("DONE")) {
-            status = Status.DONE;
-        }
+        String status = stringArr[3];
         String description = stringArr[4];
-        Duration duration = Duration.parse(stringArr[5]);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
-        LocalDateTime startTime = LocalDateTime.parse(stringArr[6]);
-        String startTimeStr = startTime.format(formatter);
-        Task task = new Task(id, Type.TASK, name, status, description, (int) duration.toMinutes(), startTimeStr);
-        Epic epic = new Epic(id, Type.EPIC, name, status, description, (int) duration.toMinutes(), startTimeStr);
-        SubTask subTask = new SubTask(id, Type.EPIC, name, status, description,
-                (int) duration.toMinutes(), startTimeStr, epic);
+        Duration duration = Duration.ofMinutes(Integer.parseInt(stringArr[5].substring(2, stringArr[5].length() - 1)));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        String startTimeStr = stringArr[6].replace("T", " ")
+                .replace("-", ".");
+        LocalDateTime startTime = LocalDateTime.parse(startTimeStr, formatter);
+        Task task = new Task(id, Type.TASK, name, status, description, duration, startTime);
+        Epic epic = new Epic(id, Type.EPIC, name, status, description, duration, startTime);
+        Subtask subTask = new Subtask(id, Type.SUBTASK, name, status, description,
+                duration, startTime, epic.getId());
         switch (stringArr[1]) {
             case "TASK":
-                tasks.put(id, task);
+                getAllTasks().put(id, task);
                 break;
             case "EPIC":
-                epics.put(id, epic);
+                getAllEpics().put(id, epic);
                 break;
             case "SUBTASK":
-                allSubTasks.put(id, subTask);
-                epic.addSubTask(subTask);
+                getAllSubtasks().put(id, subTask);
+                epic.addSubtask(subTask);
                 break;
         }
         calculateEpic(epic);
@@ -146,15 +143,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (final BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             writer.append("id, type, name, status, description, duration, startTime, epic");
             writer.newLine();
-            for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
+            for (Map.Entry<Integer, Task> entry : getAllTasks().entrySet()) {
                 writer.append(toString(entry.getValue()));
                 writer.newLine();
             }
-            for (Map.Entry<Integer, Epic> entry : epics.entrySet()) {
+            for (Map.Entry<Integer, Epic> entry : getAllEpics().entrySet()) {
                 writer.append(toString(entry.getValue()));
                 writer.newLine();
             }
-            for (Map.Entry<Integer, SubTask> entry : allSubTasks.entrySet()) {
+            for (Map.Entry<Integer, Subtask> entry : getAllSubtasks().entrySet()) {
                 writer.append(toString(entry.getValue()));
                 writer.newLine();
             }

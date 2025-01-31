@@ -2,7 +2,6 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -11,32 +10,31 @@ public class Task {
     private String name;
     private Status status;
     private String description;
-    Epic epic;
+    protected Integer epicId;
     private Duration duration;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 
-    public Task(int id, Type type, String name, Status status, String description,
-                int duration, String startTime) {
+    public Task(int id, Type type, String name, String status, String description,
+                Duration duration, LocalDateTime startTime) {
         this.id = id;
         this.type = type;
         this.name = name;
-        this.status = status;
+        this.status = convertStringToStatus(status);
         this.description = description;
-        this.duration = Duration.ofMinutes(duration);
-        this.startTime = LocalDateTime.parse(startTime, formatter);
+        this.duration = duration;
+        this.startTime = startTime;
         this.endTime = this.startTime.plus(this.duration);
     }
 
-    public Task(Type type, String name, Status status, String description,
-                int duration, String startTime) {
+    public Task(Type type, String name, String status, String description,
+                Duration duration, LocalDateTime startTime) {
         this.type = type;
         this.name = name;
-        this.status = status;
+        this.status = convertStringToStatus(status);
         this.description = description;
-        this.duration = Duration.ofMinutes(duration);
-        this.startTime = LocalDateTime.parse(startTime, formatter);
+        this.duration = duration;
+        this.startTime = startTime;
         this.endTime = this.startTime.plus(this.duration);
     }
 
@@ -46,7 +44,20 @@ public class Task {
         this.description = description;
         this.duration = Duration.ofMinutes(45);
         this.startTime = LocalDateTime.now();
-        this.endTime = LocalDateTime.now();
+        this.endTime = this.startTime.plus(this.duration);
+    }
+
+    public Task(int id, Type type, String name, String status, String description, Duration duration,
+                LocalDateTime startTime, LocalDateTime endTime, Integer epicId) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.status = convertStringToStatus(status);
+        this.description = description;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.epicId = epicId;
     }
 
     public void setId(int id) {
@@ -65,10 +76,6 @@ public class Task {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -83,14 +90,6 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Epic getEpic() {
-        return null;
-    }
-
-    public void setEpic(Epic epic) {
-        this.epic = epic;
     }
 
     public Integer getEpicId() {
@@ -121,6 +120,14 @@ public class Task {
         return endTime;
     }
 
+    public Status convertStringToStatus(String statusStr) {
+        return switch (statusStr) {
+            case "DONE" -> Status.DONE;
+            case "IN_PROGRESS" -> Status.IN_PROGRESS;
+            default -> Status.NEW;
+        };
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,6 +146,11 @@ public class Task {
         return "{" +
                 "id=" + id +
                 ", type=" + type +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", epicId=" + epicId +
+                ", duration=" + duration +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';

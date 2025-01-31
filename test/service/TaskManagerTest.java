@@ -1,23 +1,23 @@
 package service;
 
-import model.*;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import model.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import service.history.InMemoryHistoryManager;
 import service.memory.TaskManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @DisplayName("Предок различных реализаций менеджеров")
 abstract class TaskManagerTest<T extends TaskManager> {
     T manager;
     InMemoryHistoryManager historyManager;
     Task task;
-    SubTask subTask;
+    Subtask subtask;
     Epic epic;
 
     protected abstract T createManager();
@@ -25,10 +25,12 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @BeforeEach
     void init() {
         manager = createManager();
-        task = manager.createTask(new Task(Type.TASK, "Test Task", Status.NEW,
-                "Test Task description", 10, "12.01.2105, 12:00"));
+        task = manager.createTask(new Task(Type.TASK, "Test Task", "NEW",
+                "Test Task description", Duration.ofMinutes(10),
+                LocalDateTime.of(2105, 1, 12, 12, 0, 0)));
         epic = manager.createEpic(new Epic(Type.EPIC, "Test Epic", "Test Epic description"));
-        subTask = manager.createSubTask(new SubTask(Type.SUBTASK, "Test SubTask", Status.DONE,
-                "Test SubTask description", 10, "01.01.2000, 12:00", epic));
+        subtask = manager.createSubtask(new Subtask(Type.SUBTASK, "Test Subtask", "DONE",
+                "Test Subtask description", Duration.ofMinutes(10),
+                LocalDateTime.of(2000, 1, 1, 12, 0, 0), epic.getId()));
     }
 }
